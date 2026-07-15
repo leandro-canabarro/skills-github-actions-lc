@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node $NaN
         uses: actions/setup-node@v4
         with:
-          node-version: $NaN
+          node-version: ${{ matrix.node-version }}
           cache: npm
 
       - name: Instalar dependências
