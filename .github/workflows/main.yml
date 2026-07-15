@@ -1,0 +1,11 @@
+name: Main
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  call-quality:
+    uses: ./.github/workflows/quality.yml
+    with:
+      node-version: "24"
