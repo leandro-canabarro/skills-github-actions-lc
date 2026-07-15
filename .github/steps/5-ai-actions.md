@@ -50,11 +50,13 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
+            const response = ${{ toJSON(steps.inference.outputs.response) }};
+
             github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: `### 🤖 Triagem automática\n\n${{ toJSON(steps.inference.outputs.response) }}`
+              body: `### 🤖 Triagem automática\n\n${response}`
             })
 ```
 
