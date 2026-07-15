@@ -48,15 +48,15 @@ jobs:
 
       - name: Comentar a análise na issue
         uses: actions/github-script@v7
+        env:
+          AI_RESPONSE: ${{ steps.inference.outputs.response }}
         with:
           script: |
-            const response = ${{ toJSON(steps.inference.outputs.response) }};
-
             github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: `### 🤖 Triagem automática\n\n${response}`
+              body: ['### 🤖 Triagem automática', '', process.env.AI_RESPONSE].join('\n')
             })
 ```
 
