@@ -1,0 +1,23 @@
+{
+  "name": "GitHub Actions do zero ao CI/CD - OctoMatch",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:24",
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "GitHub.vscode-github-actions",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ],
+      "settings": {
+        "chat.agent.enabled": true
+      }
+    }
+  },
+  "forwardPorts": [5173],
+  "postCreateCommand": "npm install"
+}
