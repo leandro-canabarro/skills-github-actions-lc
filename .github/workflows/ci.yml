@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20, 22, 24]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node $NaN
+        uses: actions/setup-node@v4
+        with:
+          node-version: $NaN
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Rodar testes
+        run: npm test
