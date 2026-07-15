@@ -1,0 +1,38 @@
+name: AI Issue Triage
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+  models: read
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Analisar a issue com GitHub Models
+        id: inference
+        uses: actions/ai-inference@v1
+        with:
+          model: openai/gpt-4o-mini
+          system-prompt: |
+            Você é um assistente de triagem. Responda em português do Brasil.
+            Gere um resumo curto e sugira até 3 labels adequadas.
+          prompt: |
+            Título: ${{ github.event.issue.title }}
+            Corpo: ${{ github.event.issue.body }}
+
+      - name: Comentar a análise na issue
+        uses: actions/github-script@v7
+        env:
+          AI_RESPONSE: ${{ steps.inference.outputs.response }}
+        with:
+          script: |
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: ['### 🤖 Triagem automática', '', process.env.AI_RESPONSE].join('\n')
+            })
